@@ -3,6 +3,9 @@ import Header from "../Header"
 
 const Login = () => {
     const [toogleSignIn, settoogleSignIn] = useState(true);
+    const handleButtonClick = () => {
+
+    }
     return (
         <div className="relative">
             <div>
@@ -14,7 +17,7 @@ const Login = () => {
                 <input type="text" placeholder="Email Address" className="p-2 rounded-md bg-gray-700" />
                 {!toogleSignIn && <input type="text" placeholder="Full Name" className="p-2 rounded-md bg-gray-700" />}
                 <input type="password" placeholder="Password" className="p-2 rounded-md bg-gray-700" />
-                <button className="bg-red-500 p-2 mt-2 rounded-md" >{toogleSignIn ? "Sign In" : "Sign Up"}</button>
+                <button className="bg-red-500 p-2 mt-2 rounded-md" onClick={handleButtonClick}>{toogleSignIn ? "Sign In" : "Sign Up"}</button>
                 <p className="cursor-pointer hover:underline" onClick={() => { settoogleSignIn(!toogleSignIn) }}>{toogleSignIn ? "New to Netflix? Sign Up Now" : "Already Registered User? Sign In"}</p>
             </form>
         </div>
