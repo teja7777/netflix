@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "../Header"
+import { checkValidateData } from "../../utils/validate";
 
 const Login = () => {
     const [toogleSignIn, settoogleSignIn] = useState(true);
+    const email = useRef(null);
+    const password = useRef(null);
+    const [errorMessage, setErrorsMessage] = useState("");
     const handleButtonClick = () => {
-
+        const message = checkValidateData(email?.current, password?.current);
+        if (message) {
+            setErrorsMessage(message);
+        }
     }
     return (
         <div className="relative">
@@ -12,11 +19,12 @@ const Login = () => {
                 <Header />
                 <img src="https://assets.nflxext.com/ffe/siteui/vlv3/50fcc930-ba3f-4cae-9257-9f920e30a998/web/IN-en-20250310-TRIFECTA-perspective_739387a0-ff14-44ed-a5af-36e5aa4d236e_large.jpg" alt="" />
             </div>
-            <form className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mx-auto p-12 bg-black bg-opacity-85 flex flex-col gap-[20px] text-white rounded-xl text-medium">
+            <form onSubmit={e => e.preventDefault()} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mx-auto p-12 bg-black bg-opacity-85 flex flex-col gap-[20px] text-white rounded-xl text-medium">
                 <p className="text-3xl font-bold">Sign In</p>
-                <input type="text" placeholder="Email Address" className="p-2 rounded-md bg-gray-700" />
+                <input type="text" placeholder="Email Address" className="p-2 rounded-md bg-gray-700" ref={email} />
                 {!toogleSignIn && <input type="text" placeholder="Full Name" className="p-2 rounded-md bg-gray-700" />}
-                <input type="password" placeholder="Password" className="p-2 rounded-md bg-gray-700" />
+                <input type="password" placeholder="Password" className="p-2 rounded-md bg-gray-700" ref={password} />
+                <p className="text-red-500 font-bold">{errorMessage}</p>
                 <button className="bg-red-500 p-2 mt-2 rounded-md" onClick={handleButtonClick}>{toogleSignIn ? "Sign In" : "Sign Up"}</button>
                 <p className="cursor-pointer hover:underline" onClick={() => { settoogleSignIn(!toogleSignIn) }}>{toogleSignIn ? "New to Netflix? Sign Up Now" : "Already Registered User? Sign In"}</p>
             </form>
