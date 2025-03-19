@@ -2,12 +2,16 @@ import { useRef, useState } from "react";
 import Header from "../Header"
 import { checkSignInData, checkSignUpData } from "../../utils/validate";
 import { auth } from "../../utils/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../utils/store/Slices/userSlice";
+import { current } from "@reduxjs/toolkit";
 
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [toogleSignIn, settoogleSignIn] = useState(true);
     const email = useRef<any>(null);
     const password = useRef<any>(null);
@@ -24,7 +28,23 @@ const Login = () => {
                     // Signed up 
                     const user = userCredential.user;
                     console.log(user);
-                    navigate("/browse");
+                    updateProfile(user, {
+                        displayName: name.current.value,
+                        photoURL: "https://avatars.githubusercontent.com/u/52334571?s=400&v=4"
+                    }).then(() => {
+                        // Profile updated!
+                        const { uid, email, displayName, photoURL } = auth.currentUser || {};
+                        dispatch(addUser({
+                            uid: uid,
+                            email: email,
+                            displayName: displayName,
+                            photoURL: photoURL
+                        }))
+                        navigate("/browse");
+                    }).catch((error) => {
+                        // An error occurred
+                        setErrorsMessage(error.message)
+                    });
                 })
                 .catch((error) => {
                     const errorCode = error?.code || "";
