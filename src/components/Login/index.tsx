@@ -6,8 +6,6 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../utils/store/Slices/userSlice";
-import { current } from "@reduxjs/toolkit";
-
 
 const Login = () => {
     const navigate = useNavigate();
