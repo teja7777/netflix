@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../../utils/store/Slices/userSlice";
 import { netflixLogo } from "../../utils/constants";
+import { RootState } from "../../utils/store/appStore";
 
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(store => store?.user)
+    const user = useSelector((store: RootState) => store?.user);
     const handleSignout = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
@@ -43,7 +44,7 @@ const Header = () => {
                 className="w-44"
                 alt="logo" />
             {user && <div className="flex items-center gap-3">
-                <img src={user.photoURL ? user.photoURL : "/profile.jpg"} className="h-[40px] w-[40px]" />
+                <img src={"/profile.jpg"} className="h-[40px] w-[40px]" />
                 <button className="text-xl text-white font-bold" onClick={handleSignout}>Sign out</button>
             </div>}
         </div>
